@@ -1,13 +1,55 @@
-# smithery.yaml (Basic Example - Adapt based on Smithery.ai documentation!)
+# smithery.yaml configuration file
+# Docs: https://smithery.ai/docs/config#smitheryyaml
 
-# Version of the Smithery spec (check their docs)
-version: 0.1.0 # Hypothetical version
+version: 0.1.0 # Check Smithery docs for current version
 
 # Basic information about your tool
 info:
-  name: CanvasMCPTool # Choose a name for Smithery
+  name: CanvasMCPTool # Name used within Smithery
   title: Canvas LMS MCP Server
-  description: Provides access to Canvas LMS data like assignments, files, and PDF text.
+  description: Provides access to Canvas LMS data like assignments, files, and PDF text via the Canvas API.
+
+# --- Start Command Configuration --- Required Section ---
+startCommand:
+  # Indicates the MCP communicates over standard input/output
+  type: stdio
+
+  # Defines the configuration options the user needs to provide in Smithery
+  configSchema:
+    type: object
+    required:
+      - canvasApiUrl
+      - canvasApiToken
+      # Add other required env vars if your server needs them
+    properties:
+      canvasApiUrl:
+        type: string
+        description: The base URL of the Canvas instance (e.g., https://your.instructure.com).
+      canvasApiToken:
+        type: string
+        description: The Canvas API access token with necessary permissions.
+      # Example optional variable:
+      # logLevel:
+      #   type: string
+      #   description: Log level for the server (e.g., info, debug).
+      #   default: info
+
+  # Function to generate the command line instruction to start the server
+  commandFunction:
+    # Takes the config object (from configSchema) and returns command details
+    # This example uses 'npm start' and passes config values as environment variables
+    |-
+      (config) => ({
+        "command": "npm",
+        "args": ["start"],
+        "env": {
+          "CANVAS_API_URL": config.canvasApiUrl,
+          "CANVAS_API_TOKEN": config.canvasApiToken,
+          "PORT": process.env.PORT || "3000" # Smithery might set PORT, otherwise default
+          # Add other env vars based on configSchema here if needed
+          # "LOG_LEVEL": config.logLevel
+        }
+      })
 
 # How Smithery should connect to your deployed API
 # Use environment variables provided by your deployment platform if possible
