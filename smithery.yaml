@@ -1,0 +1,35 @@
+# smithery.yaml (Basic Example - Adapt based on Smithery.ai documentation!)
+
+# Version of the Smithery spec (check their docs)
+version: 0.1.0 # Hypothetical version
+
+# Basic information about your tool
+info:
+  name: CanvasMCPTool # Choose a name for Smithery
+  title: Canvas LMS MCP Server
+  description: Provides access to Canvas LMS data like assignments, files, and PDF text.
+
+# How Smithery should connect to your deployed API
+# Use environment variables provided by your deployment platform if possible
+# The base URL of your *deployed* server (e.g., from Render)
+# It's often best practice to use an environment variable here
+server:
+  url: ${env.MCP_SERVER_URL} # Example: using an env var set during deployment
+
+# Authentication (if your MCP server itself required an API key - currently it doesn't)
+# auth:
+#   type: bearer # or apiKey, etc.
+#   # ... other auth details
+
+# Define actions (endpoints) - Smithery might generate this from your OpenAPI spec
+# You might customize descriptions or parameters here later within Smithery's UI
+actions:
+  # Example for the PDF extraction endpoint
+  extractPdfText:
+    # Corresponds to operationId or path/method in your OpenAPI spec
+    operationId: postApiPdfExtractText # Hypothetical - Check your generated OpenAPI spec
+    summary: Extract Text from Canvas PDF
+    description: Downloads a PDF file from Canvas using its file ID and extracts the text content.
+    # Parameter mapping might be needed here depending on Smithery's features
+  # Add other actions (getAssignmentDescription, getCourseAssignments, etc.)
+  # ... 
