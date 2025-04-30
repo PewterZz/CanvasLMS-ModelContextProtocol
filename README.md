@@ -1,5 +1,8 @@
 # Canvas LMS MCP Server
 
+[![smithery badge](https://smithery.ai/badge/@PewterZz/canvaslms-modelcontextprotocol)](https://smithery.ai/server/@PewterZz/canvaslms-modelcontextprotocol)
+
+
 This server acts as a backend proxy and utility layer for interacting with Canvas LMS instances, providing processed data intended for consumption by Language Models (LLMs) or other applications.
 
 It allows fetching course details, assignment information (including descriptions and attached file links/content), discussion topics, and extracting text from PDF files hosted on Canvas.
