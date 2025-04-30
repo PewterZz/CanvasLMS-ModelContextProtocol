@@ -49,5 +49,5 @@ COPY --chown=node:node package*.json ./
 # The hosting platform often overrides this, but it's good practice
 EXPOSE 3000
 
-# Define the command to run the application (uses the start script from package.json)
-CMD [ "npm", "start" ] 
+# Define the command to run the application (directly runs the built JS file)
+CMD [ "node", "dist/index.js" ] 
