@@ -91,32 +91,41 @@ export const executeTool = async (
       domain: request.authentication.domain
     };
     
-    // Create the Canvas client only when we need it
-    const canvasClient = createCanvasClient(canvasCredentials);
-    
-    let result;
-    switch (request.toolId) {
-      case 'get-courses':
-        result = await canvasClient.getCourses(request.parameters.limit);
-        break;
-        
-      case 'get-assignments':
-        result = await canvasClient.getAssignments(request.parameters.courseId);
-        break;
-        
-      default:
-        return {
-          success: false,
-          error: `Implementation for tool ${request.toolId} not found`
-        };
+    try {
+      // Create the Canvas client only when we need it
+      const canvasClient = createCanvasClient(canvasCredentials);
+      
+      let result;
+      switch (request.toolId) {
+        case 'get-courses':
+          result = await canvasClient.getCourses(request.parameters.limit);
+          break;
+          
+        case 'get-assignments':
+          result = await canvasClient.getAssignments(request.parameters.courseId);
+          break;
+          
+        default:
+          return {
+            success: false,
+            error: `Implementation for tool ${request.toolId} not found`
+          };
+      }
+      
+      return {
+        success: true,
+        result
+      };
+    } catch (error) {
+      // Handle errors from Canvas API client
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Canvas API error'
+      };
     }
     
-    return {
-      success: true,
-      result
-    };
-    
   } catch (error) {
+    console.error("Tool execution error:", error);
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error occurred'

@@ -5,8 +5,8 @@ version: 0.1.0 # Check Smithery docs for current version
 
 # Basic information about your tool
 info:
-  name: CanvasMCPTool # Name used within Smithery
-  title: Canvas LMS MCP Server
+  name: CanvasLMS-ModelContextProtocol
+  title: Canvas LMS Model Context Protocol with lazy authentication for Smithery
   description: Provides access to Canvas LMS data like assignments, files, and PDF text via the Canvas API.
 
 # --- Start Command Configuration --- Required Section ---
@@ -84,4 +84,24 @@ actions:
     description: Downloads a PDF file from Canvas using its file ID and extracts the text content.
     # Parameter mapping might be needed here depending on Smithery's features
   # Add other actions (getAssignmentDescription, getCourseAssignments, etc.)
-  # ... 
+  # ...
+
+containerPort: 3000
+
+# List of available tools
+tools:
+  - name: get-courses
+    description: Retrieves courses from Canvas LMS
+    parameters:
+      - name: limit
+        description: Maximum number of courses to return
+        type: number
+        required: false
+  
+  - name: get-assignments
+    description: Retrieves assignments for a specific course
+    parameters:
+      - name: courseId
+        description: ID of the course
+        type: string
+        required: true 

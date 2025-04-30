@@ -45,9 +45,18 @@ COPY --chown=node:node package*.json ./
 # Copy any other necessary static assets or config files if needed
 # e.g. COPY --from=builder /usr/src/app/public ./public
 
+# Install curl for health check (as root, then switch back to node user)
+USER root
+RUN apk --no-cache add curl
+USER node
+
 # Expose the port the app runs on (should match PORT env var, default 3000)
 # The hosting platform often overrides this, but it's good practice
 EXPOSE 3000
+
+# Add a health check
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3000/ || exit 1
 
 # Define the command to run the application (directly runs the built JS file)
 CMD [ "node", "dist/index.js" ] 
