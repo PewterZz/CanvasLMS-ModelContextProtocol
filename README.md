@@ -1,4 +1,4 @@
-# Canvas MCP Server
+# Canvas LMS MCP Server
 
 This server acts as a backend proxy and utility layer for interacting with Canvas LMS instances, providing processed data intended for consumption by Language Models (LLMs) or other applications.
 
