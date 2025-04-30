@@ -20,6 +20,8 @@ startCommand:
     required:
       - canvasApiUrl
       - canvasApiToken
+      - awsApiUrl
+      - awsCanvasApiToken
       # Add other required env vars if your server needs them
     properties:
       canvasApiUrl:
@@ -28,6 +30,12 @@ startCommand:
       canvasApiToken:
         type: string
         description: The Canvas API access token with necessary permissions.
+      awsApiUrl:
+        type: string
+        description: The base URL of the AWS API Gateway endpoint for PDF extraction.
+      awsCanvasApiToken:
+        type: string
+        description: The API token required to authenticate with the AWS API Gateway.
       # Example optional variable:
       # logLevel:
       #   type: string
@@ -45,6 +53,8 @@ startCommand:
         "env": {
           "CANVAS_API_URL": config.canvasApiUrl,
           "CANVAS_API_TOKEN": config.canvasApiToken,
+          "AWS_API_URL": config.awsApiUrl,
+          "AWS_CANVAS_API_TOKEN": config.awsCanvasApiToken,
           "PORT": process.env.PORT || "3000" # Smithery might set PORT, otherwise default
           # Add other env vars based on configSchema here if needed
           # "LOG_LEVEL": config.logLevel
