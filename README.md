@@ -1,3 +1,98 @@
+# Canvas LMS Model Context Protocol
+
+A server implementation that enables Smithery to list tools without authentication, while deferring authentication until tool execution.
+
+## Lazy Loading Authentication
+
+This server follows the Smithery recommendation for "lazy loading" of authentication:
+
+- **Tool Listing**: The `/api/tools` endpoint allows any client (including Smithery) to list available tools without requiring authentication. This is essential for discovery.
+
+- **Tool Execution**: Authentication credentials are only required when actually executing a tool. The credentials are passed in the request body at execution time.
+
+This approach ensures that:
+
+1. Smithery can display the tool list without requiring users to provide authentication upfront
+2. Security is maintained by requiring proper authentication when accessing protected resources
+3. API keys and sensitive credentials are only used when absolutely necessary
+
+## API Endpoints
+
+### Public Endpoints (No Authentication Required)
+
+- `GET /api/tools` - List all available tools
+- `GET /api/tools/:id` - Get details for a specific tool
+
+### Protected Endpoints (Authentication Required in Request)
+
+- `POST /api/tools/:id/execute` - Execute a specific tool
+
+## Request Format for Tool Execution
+
+```json
+{
+  "parameters": {
+    "key1": "value1",
+    "key2": "value2"
+  },
+  "authentication": {
+    "apiKey": "your-canvas-api-key",
+    "domain": "your-canvas-domain.instructure.com"
+  }
+}
+```
+
+## Response Format
+
+### Success Response
+
+```json
+{
+  "success": true,
+  "result": {
+    // Tool-specific result data
+  }
+}
+```
+
+### Error Response
+
+```json
+{
+  "success": false,
+  "error": "Error message describing what went wrong"
+}
+```
+
+## Available Tools
+
+1. **Get Courses**
+   - ID: `get-courses`
+   - Description: Retrieves courses from Canvas LMS
+   - Parameters:
+     - `limit` (optional): Maximum number of courses to return
+
+2. **Get Assignments**
+   - ID: `get-assignments`
+   - Description: Retrieves assignments for a specific course
+   - Parameters:
+     - `courseId` (required): ID of the course
+
+## Development
+
+1. Install dependencies: `npm install`
+2. Build the project: `npm run build`
+3. Start the server: `npm start`
+
+## Docker
+
+A Docker configuration is included for easy deployment:
+
+```bash
+docker build -t canvas-mcp .
+docker run -p 3000:3000 canvas-mcp
+```
+
 # Canvas LMS MCP Server
 
 [![smithery badge](https://smithery.ai/badge/@PewterZz/canvaslms-modelcontextprotocol)](https://smithery.ai/server/@PewterZz/canvaslms-modelcontextprotocol)
