@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/pewterzz-canvaslms-modelcontextprotocol-badge.png)](https://mseep.ai/app/pewterzz-canvaslms-modelcontextprotocol)
+
 # Canvas LMS Model Context Protocol
 
 A server implementation that enables Smithery to list tools without authentication, while deferring authentication until tool execution.
